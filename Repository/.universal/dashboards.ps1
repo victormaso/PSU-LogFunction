@@ -1,0 +1,2 @@
+﻿New-PSUDashboard -Name "WPSU_Dashboard51" -FilePath "dashboards\WPSU_Dashboard\WPSU_Dashboard.ps1" -BaseUrl "/WPSU_Dashboard51" -Authenticated -AutoDeploy -Environment "Windows PowerShell 5.1" 
+New-PSUDashboard -Name "WPSU_Dashboard7" -FilePath "dashboards\WPSU_Dashboard\WPSU_Dashboard.ps1" -BaseUrl "/WPSU_Dashboard7" -Authenticated -AutoDeploy -Environment "PS7CoreLatest"
