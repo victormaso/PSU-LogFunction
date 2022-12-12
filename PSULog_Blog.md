@@ -135,7 +135,7 @@ function Write-PSULog {
         [string]$Severity = "Info",
         [Parameter(Mandatory = $true)]
         [string]$Message,
-        [string]$logDirectory = "C:\ProgramData\UniversalAutomation\Repository\WritePSULogs",
+        [string]$logDirectory = "C:\PSULogDir",
         [System.Management.Automation.ErrorRecord]$LastException = $_
     )
     ...
@@ -240,7 +240,7 @@ function Write-PSULog {
         [string]$Severity = "Info",
         [Parameter(Mandatory = $true)]
         [string]$Message,
-        [string]$logDirectory = "C:\ProgramData\UniversalAutomation\Repository\WritePSULogs",
+        [string]$logDirectory = "C:\PSULogDir",
         [System.Management.Automation.ErrorRecord]$LastException = $_
     )
 
@@ -348,8 +348,14 @@ function Write-PSULog {
         $WriteHostColor = @{foregroundColor = "Red"}
     }
 
-
-
+    if (-NOT (Test-Path $logDirectory -PathType Container)) {
+        try {
+            New-Item -Path $logDirectory -ItemType Directory -ErrorAction Stop
+        }
+        catch {
+            throw "Could not access or create the log directory [$logDirectory] path $_"
+        }
+    }
 
     $logFilePath = Join-Path "$logDirectory" "PSULogFile.json"
     $LogObject | ConvertTo-Json  -Depth 2 | Out-File -FilePath $logFilePath -Append -Encoding utf8

@@ -4,7 +4,7 @@ function Write-PSULog {
         [string]$Severity = "Info",
         [Parameter(Mandatory = $true)]
         [string]$Message,
-        [string]$logDirectory = "C:\ProgramData\UniversalAutomation\Repository\WritePSULogs",
+        [string]$logDirectory = "C:\PSULogDir",
         [System.Management.Automation.ErrorRecord]$LastException = $_
     )
 
@@ -18,7 +18,8 @@ function Write-PSULog {
             EndPointID    = $endpoint.Name
         }
 
-    } elseif (($Method) -and ($Url)) {
+    }
+    elseif (($Method) -and ($Url)) {
         #Rest API Endpoint
         $Metadata = [PSCustomObject]@{
             Invoking_User = $Identity
@@ -26,7 +27,8 @@ function Write-PSULog {
             EndpointUrl   = $Url
             Body          = $Body
         }
-    } elseif ($UAJob.id) {
+    }
+    elseif ($UAJob.id) {
         #UA Job
         $UAJobParamObjects = $UAJob.Parameters | ForEach-Object {
             [PSCustomObject]@{
@@ -41,7 +43,8 @@ function Write-PSULog {
             UAJobScript   = $UAJob.ScriptFullPath
             UAJobId       = $UAJob.Id
         }
-    } else {
+    }
+    else {
         #Identify User run as account by Home directory
         $user = $HOME | Split-Path -Leaf
 
@@ -69,7 +72,8 @@ function Write-PSULog {
         if ($LastException.ErrorRecord) {
             #PSCore Error
             $LastError = $LastException.ErrorRecord
-        } else {
+        }
+        else {
             #PS 5.1 Error
             $LastError = $LastException
         }
@@ -109,15 +113,21 @@ function Write-PSULog {
     
         $LogObject | Add-Member -MemberType NoteProperty -Name fullCallStackDump -Value $FullCallStackWithoutLogFunction
             
-        $WriteHostColor = @{foregroundColor = "Red"}
+        $WriteHostColor = @{foregroundColor = "Red" }
     }
 
-
-
+    if (-NOT (Test-Path $logDirectory -PathType Container)) {
+        try {
+            New-Item -Path $logDirectory -ItemType Directory -ErrorAction Stop
+        }
+        catch {
+            throw "Could not access or create the log directory [$logDirectory] path $_"
+        }
+    }
 
     $logFilePath = Join-Path "$logDirectory" "PSULogFile.json"
     $LogObject | ConvertTo-Json  -Depth 2 | Out-File -FilePath $logFilePath -Append -Encoding utf8
     
     Write-Host "$($LogObject.Timestamp) Sev=$($LogObject.Severity) CallingFunction=$($LogObject.CallingFunction) `n   $($LogObject.Message)" @WriteHostColor
-    if ($Severity -eq "Error") {throw $LastException}
+    if ($Severity -eq "Error") { throw $LastException }
 }
