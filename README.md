@@ -96,6 +96,7 @@ By looking for these variables we can determine if this is a job, api or Dashboa
         #Rest API Endpoint
         $Metadata = [PSCustomObject]@{
             Invoking_User = $Identity
+            PSU_Type      = "Endpoint"
             Method        = $Method
             EndpointUrl   = $Url
             Body          = $Body
@@ -111,6 +112,7 @@ By looking for these variables we can determine if this is a job, api or Dashboa
         }
         $Metadata = [PSCustomObject]@{
             Invoking_User = $UAJob.Identity.name
+            PSU_Type      = "UAJob"
             UAJobParam    = $UAJobParamObjects
             UAJobScript   = $UAJob.ScriptFullPath
             UAJobId       = $UAJob.Id
@@ -121,6 +123,7 @@ By looking for these variables we can determine if this is a job, api or Dashboa
 
         $Metadata = [PSCustomObject]@{
             Invoking_User = $user
+            PSU_Type      = "NA"
         }
     }
 
@@ -258,6 +261,7 @@ function Write-PSULog {
         #Rest API Endpoint
         $Metadata = [PSCustomObject]@{
             Invoking_User = $Identity
+            PSU_Type      = "Endpoint"
             Method        = $Method
             EndpointUrl   = $Url
             Body          = $Body
@@ -273,6 +277,7 @@ function Write-PSULog {
         }
         $Metadata = [PSCustomObject]@{
             Invoking_User = $UAJob.Identity.name
+            PSU_Type      = "UAJob"
             UAJobParam    = $UAJobParamObjects
             UAJobScript   = $UAJob.ScriptFullPath
             UAJobId       = $UAJob.Id
@@ -283,6 +288,7 @@ function Write-PSULog {
 
         $Metadata = [PSCustomObject]@{
             Invoking_User = $user
+            PSU_Type      = "NA"
         }
     }
 
@@ -464,6 +470,7 @@ function Write-PSULog {
   "Message": "Running Get-Service on [FakeService]",
   "Metadata": {
     "Invoking_User": "Domain\\Victor",
+    "PSU_Type":  "Endpoint",
     "Method": "GET",
     "EndpointUrl": "/WPSU_EndpointPS7/test",
     "Body": ""
@@ -479,6 +486,7 @@ function Write-PSULog {
   "Message": "There was an error getting [FakeService]",
   "Metadata": {
     "Invoking_User": "Domain\\Victor",
+    "PSU_Type":  "Endpoint",
     "Method": "GET",
     "EndpointUrl": "/WPSU_EndpointPS7/test",
     "Body": ""
@@ -546,6 +554,7 @@ function Write-PSULog {
     "Message":  "Running Get-Service on [FakeService]",
     "Metadata":  {
                      "Invoking_User":  "Domain\\Victor",
+                     "PSU_Type":  "UAJob",
                      "UAJobParam":  {
                                         "Name":  "testJobParam",
                                         "Type":  "System.Object",
@@ -565,6 +574,7 @@ function Write-PSULog {
     "Message":  "There was an error getting [FakeService]",
     "Metadata":  {
                      "Invoking_User":  "Domain\\Victor",
+                     "PSU_Type":  "UAJob",
                      "UAJobParam":  {
                                         "Name":  "testJobParam",
                                         "Type":  "System.Object",

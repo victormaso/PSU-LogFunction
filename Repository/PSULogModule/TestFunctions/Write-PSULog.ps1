@@ -23,6 +23,7 @@ function Write-PSULog {
         #Rest API Endpoint
         $Metadata = [PSCustomObject]@{
             Invoking_User = $Identity
+            PSU_Type      = "Endpoint"
             Method        = $Method
             EndpointUrl   = $Url
             Body          = $Body
@@ -39,6 +40,7 @@ function Write-PSULog {
         }
         $Metadata = [PSCustomObject]@{
             Invoking_User = $UAJob.Identity.name
+            PSU_Type      = "UAJob"
             UAJobParam    = $UAJobParamObjects
             UAJobScript   = $UAJob.ScriptFullPath
             UAJobId       = $UAJob.Id
@@ -50,6 +52,7 @@ function Write-PSULog {
 
         $Metadata = [PSCustomObject]@{
             Invoking_User = $user
+            PSU_Type      = "NA"
         }
     }
 
