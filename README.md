@@ -1,4 +1,4 @@
-# Building Standard structured log function for Universal for debugging and auditing
+# Building Standard structured log function for Universal to provide debugging and auditing
 
 PowerShell universal has several methods to debug dashboards, jobs and endpoints. However when it comes to auditing user actions and debugging your code being invoked within dashboards endpoints benefit from adding your own logging. Even if there is no "error" to catch you may want to log information you need to recreate or diagnose an unexpected result a user reports using one of your dashboards, jobs, apis ect.
 Having a standard log function you can use across PSU that will automatically PSU specific metadata such as the current logged in user using the services rather than the service account running PSU.
