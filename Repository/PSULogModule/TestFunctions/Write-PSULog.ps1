@@ -129,7 +129,7 @@ function Write-PSULog {
     }
 
     $logFilePath = Join-Path "$logDirectory" "PSULogFile.json"
-    $LogObject | ConvertTo-Json  -Depth 2 | Out-File -FilePath $logFilePath -Append -Encoding utf8
+    $LogObject | ConvertTo-Json -Compress -Depth 2 | Out-File -FilePath $logFilePath -Append -Encoding utf8
     
     Write-Host "$($LogObject.Timestamp) Sev=$($LogObject.Severity) CallingFunction=$($LogObject.CallingFunction) `n   $($LogObject.Message)" @WriteHostColor
     if ($Severity -eq "Error") { throw $LastException }
